@@ -4,7 +4,7 @@ var amqp = require('amqplib/callback_api');
 amqp.connect('amqp://localhost:5672', function (err, conn) {
 
     conn.createChannel(function (err, ch) {
-        var ex = 'logs';
+        var ex = 'pub_sub_99jobs';
 
         ch.assertExchange(ex, 'fanout', { durable: false });
 
