@@ -3,8 +3,8 @@ var redis = require('redis');
 
 const app = express()
 var client = redis.createClient();
-var User = require('./db');
 
+var User = require('./db');
 
 
 app.get('/', (req, res) => {
