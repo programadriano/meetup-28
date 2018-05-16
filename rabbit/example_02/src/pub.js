@@ -3,7 +3,7 @@ var amqp = require('amqplib/callback_api');
 amqp.connect('amqp://localhost:5672', function (err, conn) {
 
     conn.createChannel(function (err, ch) {
-        var ex = 'pub_sub_99jobs';
+        var ex = 'pub_sub_meetup28';
         var msg = process.argv.slice(2).join(' ') || 'Hello World!';
 
         ch.assertExchange(ex, 'fanout', { durable: false });

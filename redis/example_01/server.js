@@ -1,32 +1,31 @@
-const express = require('express')
-var redis = require('redis');
+const express = require("express");
+var redis = require("redis");
 
-const app = express()
+const app = express();
 var client = redis.createClient();
 
-var User = require('./db');
+var User = require("./db");
 
+app.get("/", (req, res) => {
+  client.get("meetup_25", function(err, reply) {
+    if (reply) {
+      res.status(200).send({
+        title: "redis",
+        result: JSON.parse(reply) 
+      });
+    } else {
+      User.find().then(function(doc) {
+        client.set("meetup_25", JSON.stringify(doc));
+        client.expire("meetup_25", 20);
 
-app.get('/', (req, res) => {
+        res.status(200).send({
+            title: "db",
+            result: doc
+          });
 
-    client.get('meetup_25', function (err, reply) {
+      });
+    }
+  });
+});
 
-        if (reply) {
-            console.log('redis');
-            res.send(reply)
-        } else {
-            console.log('db');
-
-            User.find()
-                .then(function (doc) {
-
-                    client.set('meetup_25', JSON.stringify(doc));
-                    client.expire('meetup_25', 20);
-                    res.send(doc)
-                });
-        }
-    });
-
-})
-
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log("Example app listening on port 3000!"));

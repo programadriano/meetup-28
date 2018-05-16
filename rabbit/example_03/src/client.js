@@ -3,6 +3,7 @@ const uuid = require('uuid');
 
 const id = process.argv.slice(2);
 
+
 amqp.connect('amqp://localhost:5672', (err, conn) => {
 
     conn.createChannel((err, ch) => {
@@ -11,6 +12,7 @@ amqp.connect('amqp://localhost:5672', (err, conn) => {
             const corr = uuid();
             console.log(` [x] Requesting user ${id}`);
 
+           
             ch.sendToQueue('rpc_queue',
                 new Buffer(id.toString()),
                 { correlationId: corr, replyTo: q.queue });

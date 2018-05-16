@@ -5,6 +5,7 @@ amqp.connect('amqp://localhost:5672', function (err, conn) {
         var q = 'hello';
 
         ch.assertQueue(q, { durable: false });
+        ch.prefetch(1);
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
         ch.consume(q, function (msg) {
             console.log(" [x] Received %s", msg.content.toString());

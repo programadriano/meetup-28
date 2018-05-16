@@ -15,8 +15,10 @@ amqp.connect('amqp://localhost:5672', (err, conn) => {
 
             console.log(` [.] ID ${id}`);
 
+            // {sua logica}
+
             ch.sendToQueue(msg.properties.replyTo,
-                new Buffer('99jobs'),
+                new Buffer(`result_${id}`),
                 { correlationId: msg.properties.correlationId });
 
             ch.ack(msg);
